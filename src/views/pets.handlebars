@@ -1,0 +1,37 @@
+<section class="card">
+  <h2>Saved Galactic Pets</h2>
+
+  {{#if error}}
+    <p class="error">{{error}}</p>
+  {{/if}}
+
+  {{#if pets.length}}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Species</th>
+          <th>Birth Date</th>
+          <th>Adopted</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each pets}}
+          <tr>
+            <td>{{this._id}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.specie}}</td>
+            <td>{{this.birthDate}}</td>
+            <td>{{this.adopted}}</td>
+            <td>{{this.owner}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p>There are no saved pets yet.</p>
+  {{/if}}
+</section>

@@ -1,0 +1,77 @@
+<section class="card">
+  <h2>Galactic Control Panel</h2>
+
+  <p>
+    From this panel, you can generate mocked data with a Star Wars theme.
+    Users are saved with an encrypted password, a random role, and an empty pets array.
+  </p>
+
+  <div class="form-box">
+    <label for="users">Number of users:</label>
+    <input type="number" id="users" value="10" min="0">
+
+    <label for="pets">Number of pets:</label>
+    <input type="number" id="pets" value="20" min="0">
+
+    <button id="generateButton">Generate and insert data</button>
+  </div>
+
+  <div id="result" class="result"></div>
+</section>
+
+<section class="card">
+  <h2>Main Endpoints</h2>
+
+  <ul>
+    <li><strong>GET</strong> /api/mocks/mockingusers</li>
+    <li><strong>GET</strong> /api/mocks/mockingpets</li>
+    <li><strong>POST</strong> /api/mocks/generateData</li>
+    <li><strong>GET</strong> /api/users</li>
+    <li><strong>GET</strong> /api/pets</li>
+  </ul>
+</section>
+
+<script>
+  const button = document.getElementById("generateButton");
+  const result = document.getElementById("result");
+
+  button.addEventListener("click", async () => {
+    const users = Number(document.getElementById("users").value);
+    const pets = Number(document.getElementById("pets").value);
+
+    result.innerHTML = "Generating data in the galaxy...";
+
+    try {
+      const response = await fetch("/api/mocks/generateData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          users,
+          pets
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.status === "success") {
+        result.innerHTML = `
+          <p><strong>Data inserted successfully.</strong></p>
+          <p>Users inserted: ${data.payload.usersInserted}</p>
+          <p>Pets inserted: ${data.payload.petsInserted}</p>
+          <a href="/users-view">View users</a>
+          <a href="/pets-view">View pets</a>
+        `;
+      } else {
+        result.innerHTML = `
+          <p class="error">${data.message}</p>
+        `;
+      }
+    } catch (error) {
+      result.innerHTML = `
+        <p class="error">Error generating data: ${error.message}</p>
+      `;
+    }
+  });
+</script>
