@@ -144,6 +144,9 @@ button:hover {
   border-radius: 8px;
   color: #ffffff;
 }
+.hidden {
+  display: none;
+}
 
 .result a {
   display: inline-block;

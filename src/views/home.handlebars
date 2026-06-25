@@ -2,32 +2,37 @@
   <h2>Galactic Control Panel</h2>
 
   <p>
-    From this panel, you can generate mocked data with a Star Wars theme.
-    Users are saved with an encrypted password, a random role, and an empty pets array.
+    Welcome, commander. From this control center, you can summon new travelers
+    and creatures from across the galaxy. Choose how many records you want to
+    generate and send them into the Galactic Registry.
   </p>
 
   <div class="form-box">
-    <label for="users">Number of users:</label>
+    <label for="users">Number of galactic travelers:</label>
     <input type="number" id="users" value="10" min="0">
 
-    <label for="pets">Number of pets:</label>
+    <label for="pets">Number of galactic creatures:</label>
     <input type="number" id="pets" value="20" min="0">
 
-    <button id="generateButton">Generate and insert data</button>
+    <button id="generateButton">Launch Galactic Generation</button>
   </div>
 
-  <div id="result" class="result"></div>
+  <div id="result" class="result hidden"></div>
 </section>
 
 <section class="card">
-  <h2>Main Endpoints</h2>
+  <h2>Galactic Routes</h2>
+
+  <p>
+    Use these portals to explore the generated travelers, creatures, and registered
+    data from your Star Wars universe.
+  </p>
 
   <ul>
-    <li><strong>GET</strong> /api/mocks/mockingusers</li>
-    <li><strong>GET</strong> /api/mocks/mockingpets</li>
-    <li><strong>POST</strong> /api/mocks/generateData</li>
-    <li><strong>GET</strong> /api/users</li>
-    <li><strong>GET</strong> /api/pets</li>
+    <li><strong>Galactic Travelers:</strong> /mockingusers-view</li>
+    <li><strong>Galactic Creatures:</strong> /mockingpets-view</li>
+    <li><strong>Registered Travelers:</strong> /users-view</li>
+    <li><strong>Registered Creatures:</strong> /pets-view</li>
   </ul>
 </section>
 
@@ -39,7 +44,8 @@
     const users = Number(document.getElementById("users").value);
     const pets = Number(document.getElementById("pets").value);
 
-    result.innerHTML = "Generating data in the galaxy...";
+    result.classList.remove("hidden");
+    result.innerHTML = "The Force is gathering your galactic data...";
 
     try {
       const response = await fetch("/api/mocks/generateData", {
@@ -57,11 +63,11 @@
 
       if (data.status === "success") {
         result.innerHTML = `
-          <p><strong>Data inserted successfully.</strong></p>
-          <p>Users inserted: ${data.payload.usersInserted}</p>
-          <p>Pets inserted: ${data.payload.petsInserted}</p>
-          <a href="/users-view">View users</a>
-          <a href="/pets-view">View pets</a>
+          <p><strong>The Galactic Registry has been updated successfully.</strong></p>
+          <p>Travelers summoned: ${data.payload.usersInserted}</p>
+          <p>Creatures discovered: ${data.payload.petsInserted}</p>
+          <a href="/users-view">View registered travelers</a>
+          <a href="/pets-view">View registered creatures</a>
         `;
       } else {
         result.innerHTML = `
@@ -70,7 +76,7 @@
       }
     } catch (error) {
       result.innerHTML = `
-        <p class="error">Error generating data: ${error.message}</p>
+        <p class="error">A disturbance in the Force occurred: ${error.message}</p>
       `;
     }
   });
