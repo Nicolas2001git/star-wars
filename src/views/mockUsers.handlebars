@@ -1,0 +1,44 @@
+<section class="card">
+  <h2>Mock Galactic Users</h2>
+
+  <p>
+    These travelers have been summoned from across the galaxy.
+    Each one belongs to the Galactic Registry and may serve either the light side or the dark side.
+  </p>
+
+  {{#if error}}
+    <p class="error">{{error}}</p>
+  {{/if}}
+
+  {{#if users.length}}
+    <table>
+      <thead>
+        <tr>
+          <th>Holocron ID</th>
+          <th>Galactic Name</th>
+          <th>HoloNet Address</th>
+          <th>Alliance</th>
+          <th>Creatures</th>
+          <th>Secret Code</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each users}}
+          <tr>
+            <td>{{this._id}}</td>
+            <td>{{this.first_name}} {{this.last_name}}</td>
+            <td>{{this.email}}</td>
+            <td>
+              <span class="badge">{{this.role}}</span>
+            </td>
+            <td>{{this.petsCount}}</td>
+            <td>{{this.passwordPreview}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p>No galactic users were detected in this sector.</p>
+  {{/if}}
+</section>

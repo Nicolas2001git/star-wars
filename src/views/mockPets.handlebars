@@ -1,0 +1,42 @@
+<section class="card">
+  <h2>Mock Galactic Creatures</h2>
+
+  <p>
+    These creatures have been discovered on distant planets, hidden moons, and forgotten systems.
+    Some may be friendly companions, while others should probably be kept away from Sith Lords.
+  </p>
+
+  {{#if error}}
+    <p class="error">{{error}}</p>
+  {{/if}}
+
+  {{#if pets.length}}
+    <table>
+      <thead>
+        <tr>
+          <th>Creature ID</th>
+          <th>Name</th>
+          <th>Species</th>
+          <th>Discovery Date</th>
+          <th>Tamed</th>
+          <th>Guardian</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each pets}}
+          <tr>
+            <td>{{this._id}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.specie}}</td>
+            <td>{{this.birthDate}}</td>
+            <td>{{this.adopted}}</td>
+            <td>{{this.owner}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p>No galactic creatures were found in this quadrant.</p>
+  {{/if}}
+</section>
