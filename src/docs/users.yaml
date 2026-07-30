@@ -1,0 +1,166 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: MongoDB user ID
+          example: 688b9d67e55c88d1bfe4a001
+
+        first_name:
+          type: string
+          description: Galactic citizen's first name
+          example: Luke
+
+        last_name:
+          type: string
+          description: Galactic citizen's last name
+          example: Skywalker
+
+        email:
+          type: string
+          format: email
+          description: Galactic citizen's email
+          example: luke@rebellion.com
+
+        password:
+          type: string
+          description: Encrypted password
+          example: "$2b$10$encryptedPassword"
+
+        role:
+          type: string
+          enum:
+            - user
+            - admin
+          description: User role
+          example: user
+
+        pets:
+          type: array
+          description: Creatures associated with the galactic citizen
+          items:
+            type: string
+            example: 688b9d67e55c88d1bfe4a002
+
+        createdAt:
+          type: string
+          format: date-time
+
+        updatedAt:
+          type: string
+          format: date-time
+
+    UserSuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+
+        message:
+          type: string
+          example: Usuarios obtenidos correctamente.
+
+        payload:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+
+    SingleUserSuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+
+        message:
+          type: string
+          example: Usuario obtenido correctamente.
+
+        payload:
+          $ref: "#/components/schemas/User"
+
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+
+        message:
+          type: string
+          example: Usuario no encontrado.
+
+        error:
+          type: string
+          example: Error message
+
+paths:
+  /api/users:
+    get:
+      summary: Get all galactic users
+      description: Returns all users stored in the Galactic Archives.
+      tags:
+        - Users
+
+      responses:
+        "200":
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserSuccessResponse"
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/users/{uid}:
+    get:
+      summary: Get one galactic user
+      description: Returns one user using their MongoDB ID.
+      tags:
+        - Users
+
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: MongoDB ID of the galactic citizen
+          schema:
+            type: string
+          example: 688b9d67e55c88d1bfe4a001
+
+      responses:
+        "200":
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SingleUserSuccessResponse"
+
+        "400":
+          description: Invalid MongoDB user ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+        "404":
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
